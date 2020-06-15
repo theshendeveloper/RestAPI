@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->string('status')->default(\App\Product::UNAVAILABLE_PRODUCT);
             $table->string('image');
             $table->unsignedBigInteger('seller_id');
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('seller_id')->references('id')->on('users');

@@ -16,6 +16,8 @@ class CategoryProductTable extends Migration
         Schema::create('category_product', function (Blueprint $table) {
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('product_id');
+            $table->softDeletes();
+
 
             $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('product_id')->references('id')->on('products');

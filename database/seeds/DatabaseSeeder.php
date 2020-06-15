@@ -13,10 +13,10 @@ class DatabaseSeeder extends Seeder
     {
 
 
-        $usersQuantity= 50;
+        $usersQuantity= 100;
         $categoriesQuantity= 10;
-        $productsQuantity= 500;
-        $transactionsQuantity= 500;
+        $productsQuantity= 50;
+        $transactionsQuantity= 50;
         factory(\App\User::class,$usersQuantity)->create();
         factory(\App\Category::class,$categoriesQuantity)->create();
         factory(\App\Product::class,$productsQuantity)->create()->each(
