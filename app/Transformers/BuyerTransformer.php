@@ -3,6 +3,7 @@
 namespace App\Transformers;
 
 use App\Buyer;
+use Illuminate\Support\Facades\Schema;
 use League\Fractal\TransformerAbstract;
 
 class BuyerTransformer extends TransformerAbstract
@@ -42,5 +43,21 @@ class BuyerTransformer extends TransformerAbstract
             'lastChange' => $buyer->updated_at,
             'deletedDate' => isset($buyer->deleted_at) ? (string) $buyer->deleted_at : null,
         ];
+    }
+
+    public static function originalAttribute($index)
+    {
+
+        $attributes = [
+            'verified_at' => 'email_verified_at',
+            'createDate' => 'created_at',
+            'lastChange' => 'updated_at',
+            'deletedDate' =>  'deleted_at',
+
+        ];
+        if (!Schema::hasColumn('users',$index) and !isset($attributes[$index])){
+            return null;
+        }
+        return isset($attributes[$index]) ? $attributes[$index] : $index;
     }
 }

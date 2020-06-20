@@ -3,6 +3,7 @@
 namespace App\Transformers;
 
 use App\Product;
+use Illuminate\Support\Facades\Schema;
 use League\Fractal\TransformerAbstract;
 
 class ProductTransformer extends TransformerAbstract
@@ -44,5 +45,25 @@ class ProductTransformer extends TransformerAbstract
             'lastChange' => $product->updated_at,
             'deletedDate' => isset($product->deleted_at) ? (string) $product->deleted_at : null,
         ];
+    }
+    public static function originalAttribute($index)
+    {
+
+        $attributes = [
+            'title' => 'name',
+            'details' => 'description',
+            'stock' => 'quantity',
+            'situation' => 'status',
+            'picture' => 'image',
+            'seller' => 'seller_id',
+            'createDate' => 'created_at',
+            'lastChange' => 'updated_at',
+            'deletedDate' =>  'deleted_at',
+
+        ];
+        if (!Schema::hasColumn('products',$index) and !isset($attributes[$index])){
+            return null;
+        }
+        return isset($attributes[$index]) ? $attributes[$index] : $index;
     }
 }

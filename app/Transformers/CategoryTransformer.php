@@ -3,6 +3,7 @@
 namespace App\Transformers;
 
 use App\Category;
+use Illuminate\Support\Facades\Schema;
 use League\Fractal\TransformerAbstract;
 
 class CategoryTransformer extends TransformerAbstract
@@ -41,5 +42,21 @@ class CategoryTransformer extends TransformerAbstract
             'lastChange' => $category->updated_at,
             'deletedDate' => isset($category->deleted_at) ? (string) $category->deleted_at : null,
         ];
+    }
+    public static function originalAttribute($index)
+    {
+
+        $attributes = [
+            'title' => 'name',
+            'details' => 'description',
+            'createDate' => 'created_at',
+            'lastChange' => 'updated_at',
+            'deletedDate' =>  'deleted_at',
+
+        ];
+        if (!Schema::hasColumn('categories',$index) and !isset($attributes[$index])){
+            return null;
+        }
+        return isset($attributes[$index]) ? $attributes[$index] : $index;
     }
 }

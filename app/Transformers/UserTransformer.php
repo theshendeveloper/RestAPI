@@ -3,6 +3,7 @@
 namespace App\Transformers;
 
 use App\User;
+use Illuminate\Support\Facades\Schema;
 use League\Fractal\TransformerAbstract;
 
 class UserTransformer extends TransformerAbstract
@@ -43,5 +44,20 @@ class UserTransformer extends TransformerAbstract
             'lastChange' => $user->updated_at,
             'deletedDate' => isset($user->deleted_at) ? (string) $user->deleted_at : null,
         ];
+    }
+    public static function originalAttribute($index)
+    {
+
+        $attributes = [
+            'verified_at' => 'email_verified_at',
+            'createDate' => 'created_at',
+            'lastChange' => 'updated_at',
+            'deletedDate' =>  'deleted_at',
+
+        ];
+        if (!Schema::hasColumn('users',$index) and !isset($attributes[$index])){
+            return null;
+        }
+        return isset($attributes[$index]) ? $attributes[$index] : $index;
     }
 }
