@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Transformers\UserTransformer;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -28,6 +29,7 @@ class User extends Authenticatable
         'name', 'email', 'password','admin'
     ];
 
+    public $transformer = UserTransformer::class;
     /**
      * The attributes that should be hidden for arrays.
      *
