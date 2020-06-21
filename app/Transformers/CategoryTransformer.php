@@ -16,7 +16,7 @@ class CategoryTransformer extends TransformerAbstract
     protected $defaultIncludes = [
         //
     ];
-    
+
     /**
      * List of resources possible to include
      *
@@ -40,9 +40,32 @@ class CategoryTransformer extends TransformerAbstract
             'details' => (string)$category->description,
             'createDate' => $category->created_at,
             'lastChange' => $category->updated_at,
-            'deletedDate' => isset($category->deleted_at) ? (string) $category->deleted_at : null,
+            'deletedDate' => isset($category->deleted_at) ? (string)$category->deleted_at : null,
+            'links' => [
+                [
+                    'rel' => 'self',
+                    'href' => route('categories.show', $category->id),
+                ],
+                [
+                    'rel' => 'category.buyers',
+                    'href' => route('categories.buyers.index', $category->id),
+                ],
+                [
+                    'rel' => 'category.products',
+                    'href' => route('categories.products.index', $category->id),
+                ],
+                [
+                    'rel' => 'category.sellers',
+                    'href' => route('categories.sellers.index', $category->id),
+                ],
+                [
+                    'rel' => 'category.transactions',
+                    'href' => route('categories.transactions.index', $category->id),
+                ],
+            ]
         ];
     }
+
     public static function originalAttribute($index)
     {
 
@@ -51,10 +74,10 @@ class CategoryTransformer extends TransformerAbstract
             'details' => 'description',
             'createDate' => 'created_at',
             'lastChange' => 'updated_at',
-            'deletedDate' =>  'deleted_at',
+            'deletedDate' => 'deleted_at',
 
         ];
-        if (!Schema::hasColumn('categories',$index) and !isset($attributes[$index])){
+        if (!Schema::hasColumn('categories', $index) and !isset($attributes[$index])) {
             return null;
         }
         return isset($attributes[$index]) ? $attributes[$index] : $index;
