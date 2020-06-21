@@ -4,10 +4,16 @@ namespace App\Http\Controllers\Category;
 
 use App\Category;
 use App\Http\Controllers\ApiController;
+use App\Transformers\CategoryTransformer;
 use Illuminate\Http\Request;
 
 class CategoryController extends ApiController
 {
+    public function __construct()
+    {
+        $this->middleware('transform.input:'. CategoryTransformer::class)
+            ->only(['store','update']);
+    }
 
     /**
      * Display a listing of the resource.
@@ -74,8 +80,9 @@ class CategoryController extends ApiController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Category  $category
+     * @param  \App\Category $category
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Category $category)
     {

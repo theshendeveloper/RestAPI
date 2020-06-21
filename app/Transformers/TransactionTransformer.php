@@ -84,4 +84,21 @@ class TransactionTransformer extends TransformerAbstract
         }
         return isset($attributes[$index]) ? $attributes[$index] : $index;
     }
+    public static function transformedAttribute($index)
+    {
+
+        $attributes = [
+            'quantity' => 'quantity',
+            'buyer_id' => 'buyer',
+            'product_id' => 'product',
+            'created_at' => 'createDate',
+            'updated_at' => 'lastChange',
+            'deleted_at' => 'deletedDate',
+
+        ];
+        if (!Schema::hasColumn('transactions',$index) and !isset($attributes[$index])){
+            return null;
+        }
+        return isset($attributes[$index]) ? $attributes[$index] : $index;
+    }
 }

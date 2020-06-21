@@ -89,4 +89,24 @@ class ProductTransformer extends TransformerAbstract
         }
         return isset($attributes[$index]) ? $attributes[$index] : $index;
     }
+    public static function transformedAttribute($index)
+    {
+
+        $attributes = [
+            'name' => 'title',
+            'description' => 'details',
+            'quantity' => 'stock',
+            'status' => 'situation',
+            'image' => 'picture',
+            'seller_id' => 'seller',
+            'created_at' => 'createDate',
+            'updated_at' => 'lastChange',
+            'deleted_at' => 'deletedDate',
+
+        ];
+        if (!Schema::hasColumn('products',$index) and !isset($attributes[$index])){
+            return null;
+        }
+        return isset($attributes[$index]) ? $attributes[$index] : $index;
+    }
 }

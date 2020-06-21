@@ -82,4 +82,20 @@ class CategoryTransformer extends TransformerAbstract
         }
         return isset($attributes[$index]) ? $attributes[$index] : $index;
     }
+    public static function transformedAttribute($index)
+    {
+
+        $attributes = [
+            'name' => 'title',
+            'description' => 'details',
+            'created_at' => 'createDate',
+            'updated_at' => 'lastChange',
+            'deleted_at' => 'deletedDate',
+
+        ];
+        if (!Schema::hasColumn('categories', $index) and !isset($attributes[$index])) {
+            return null;
+        }
+        return isset($attributes[$index]) ? $attributes[$index] : $index;
+    }
 }
